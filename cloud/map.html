@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloudburst Live Map</title>
+
+<link rel="stylesheet" href="map.css">
+
+<!-- Leaflet Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌧 Cloudburst Monitoring Map</h1>
+
+<nav class="navbar">
+  <ul class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="map.html">Maps</a>
+    <a href="#" onclick="openAbout()">About</a>
+    <a href="#" onclick="openContact()">Contact</a>
+  </ul>
+</nav>
+
+
+</header>
+
+<div id="map"></div>
+<!-- ABOUT POPUP -->
+<div id="aboutBox" class="about-box">
+
+  <div class="about-content">
+
+    <span class="close-btn" onclick="closeAbout()">✖</span>
+
+    <h2>🌧 Cloudburst Monitoring System</h2>
+
+    <p>
+    This system monitors extreme rainfall conditions across Tamil Nadu districts
+    using live sensor data stored in Firebase. The dashboard displays rainfall
+    intensity, humidity levels, and risk status in real-time.
+    </p>
+
+    <p>
+    When rainfall exceeds safe thresholds, the system automatically generates
+    warnings and danger alerts to indicate possible flood situations. The map
+    view highlights districts with colored indicators for quick monitoring.
+    </p>
+
+    <p>
+    This project helps in early disaster detection and improves preparedness
+    against sudden cloudburst events and floods.
+    </p>
+
+  </div>
+</div>
+<!-- CONTACT POPUP -->
+<div id="contactBox" class="about-box"> <!-- reuse about-box class -->
+  <div class="about-content"> <!-- reuse about-content class -->
+    <span class="close-btn" onclick="closeContact()">✖</span>
+    <h2>📞 Contact Us</h2>
+    <p>For any cloudburst or flood-related emergencies, reach out to the following contacts:</p>
+    <div class="contact-item">🌧 Cloudburst Monitoring Center</div>
+    <div class="contact-item">📞 Disaster Helpline: <b>1070</b></div>
+    <div class="contact-item">🚑 Emergency: <b>108</b></div>
+    <div class="contact-item">📧 Email: <b>cloudburstalert@gmail.com</b></div>
+    <div class="contact-item">📍 Chennai Disaster Control Room</div>
+  </div>
+</div>
+<!-- Rain Animation -->
+<div class="rain"></div>
+<link rel="stylesheet" href="map.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="map.js"></script>
+
+</body>
+</html>

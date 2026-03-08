@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudburst Live Monitor</title>
+<section id="home"></section>
+<section id="maps"></section>
+<section id="about"></section>
+<section id="contact"></section>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<body>
+<nav class="navbar">
+  <div class="logo">🌧 Cloudburst Monitor</div>
+  <ul class="nav-links">
+    <a href="#" onclick="openHome()">Home</a>
+    <a href="#" onclick="openMap()">Maps</a>
+    <a href="#" onclick="openAbout()">About</a>
+    <a href="#" onclick="openContact()">Contact</a>
+  </ul>
+</nav>
+<div class="rain"></div>
+<div id="aboutBox" class="about-box">
+  <div class="about-content">
+    <span class="close-btn" onclick="closeAbout()">✖</span>
+    <h2>🌧 Cloudburst Monitoring System for Hilly Regions</h2>
+    <p>
+    This system monitors extreme rainfall conditions across Tamil Nadu districts
+    using live sensor data stored in Firebase. The dashboard displays rainfall
+    intensity, humidity levels, and risk status in real-time.
+    </p>
+    <p>
+    When rainfall exceeds safe thresholds, the system automatically generates
+    warnings and danger alerts to indicate possible flood situations. The map
+    view highlights districts with colored indicators for quick monitoring.
+    </p>
+    <p>
+    This project helps in early disaster detection and improves preparedness
+    against sudden cloudburst events and floods.
+    </p>
+  </div>
+
+</div>
+<div id="contactBox" class="about-box"> 
+  <div class="about-content"> 
+    <span class="close-btn" onclick="closeContact()">✖</span>
+    <h2>📞 Contact Us</h2>
+    <p>For any cloudburst or flood-related emergencies, reach out to the following contacts:</p>
+    <div class="contact-item">🌧 Cloudburst Monitoring Center</div>
+    <div class="contact-item">📞 Disaster Helpline: <b>1070</b></div>
+    <div class="contact-item">🚑 Emergency: <b>108</b></div>
+    <div class="contact-item">📧 Email: <b>cloudburstalert@gmail.com</b></div>
+    <div class="contact-item">📍 Chennai Disaster Control Room</div>
+  </div>
+</div>
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+
+  background:url("https://img.freepik.com/premium-photo/forest-landscape-with-trees-grass-rain-huge-puddles-all-around_76964-1199.jpg?w=2000") no-repeat center/cover;
+}
+body::before{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(15,23,42,0.75);
+  z-index:-1;
+}
+h1{
+  color:#38bdf8;
+  margin-top:20px;
+  font-size:32px;
+  animation:fadeDown 1s ease;
+}
+#districtContainer{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  backdrop-filter: blur(12px);
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:20px;
+  margin:15px;
+  width:260px;
+  border-radius:16px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
+
+  transition:0.4s;
+  animation:fadeUp 0.8s ease;
+}
+
+.card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 15px 40px rgba(56,189,248,0.4);
+}
+.safe{ color:#22c55e; font-weight:bold;}
+.warning{ color:#facc15; font-weight:bold;}
+.danger{ color:#ef4444; font-weight:bold;}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.rain{
+  position:fixed;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  background-image: linear-gradient(transparent, rgba(255,255,255,0.2));
+  background-size: 2px 40px;
+  animation: rainFall 0.6s linear infinite;
+  opacity:0.25;
+}
+
+@keyframes rainFall{
+  from{background-position:0 0;}
+  to{background-position:0 40px;}
+}
+
+.navbar{
+  position:sticky;
+  top:0;
+  width:100%;
+  display:flex;
+  align-items:center;
+  padding:15px 40px;
+
+  backdrop-filter: blur(12px);
+  background:rgba(0,0,0,0.4);
+  border-bottom:1px solid rgba(255,255,255,0.2);
+
+  animation:slideDown 0.8s ease;
+  z-index:100;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:600;
+  color:#38bdf8;
+}
+
+
+
+.nav-links{
+  list-style:none;
+  display:flex;
+  gap:25px;
+  margin-left:600px;
+}
+.nav-links a{
+  text-decoration:none;
+  color:white;
+  font-size:16px;
+  position:relative;
+  transition:0.3s;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  width:0%;
+  height:2px;
+  left:0;
+  bottom:-5px;
+  background:#38bdf8;
+  transition:0.3s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+.nav-links a:hover{
+  color:#38bdf8;
+}
+
+
+@keyframes slideDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.chart-box{
+  width:90%;
+  max-width:900px;
+  margin:40px auto;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+.about-box{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  visibility:hidden;
+  opacity:0;
+  transition:0.4s;
+
+  z-index:9999;   
+}
+.about-content{
+  width:70%;
+  max-width:700px;
+  padding:30px;
+  border-radius:15px;
+
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+
+  text-align:center;
+  animation:popup 0.6s ease;
+
+  position:relative;
+  z-index:10000;   
+}
+.about-box.active{
+  visibility:visible;
+  opacity:1;
+}
+
+.about-content h2{
+  color:#38bdf8;
+  margin-bottom:15px;
+}
+
+.about-content p{
+  line-height:1.6;
+  margin:10px 0;
+}
+
+
+.close-btn{
+  position:absolute;
+  right:20px;
+  top:15px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+
+@keyframes popup{
+  from{
+    transform:scale(0.7);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.about-box{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  visibility:hidden;
+  opacity:0;
+  transition:0.4s;
+  z-index:9999; 
+}
+
+.about-box.show{
+  visibility:visible;
+  opacity:1;
+}
+
+.about-content{
+  width:70%;
+  max-width:700px;
+  padding:30px;
+  border-radius:15px;
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  text-align:center;
+  animation:popup 0.6s ease;
+  position:relative;
+  z-index:10000; 
+}
+
+.about-content h2{
+  color:#38bdf8;
+}
+
+.about-content .close-btn{
+  position:absolute;
+  right:25px;
+  top:20px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.contact-item{
+  margin:10px 0;
+  font-size:18px;
+}
+
+@keyframes popup{
+  from{
+    transform:scale(0.6);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+</style>
+</head>
+<body>
+<div class="rain"></div>
+<h1>🌧 Tamil Nadu Cloudburst Live Monitor for Hilly Regions</h1>
+<div id="districtContainer"></div>
+<h2 style="margin-top:40px;">📊 Rain Level Analytics</h2>
+<div class="chart-box">
+    <canvas id="rainChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+
+/* ===== FIREBASE CONFIG ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyBAPPlSXJdMwqR4Cv1yaRfwDz81tmXZJC0",
+  authDomain: "cloudburst-e5cf3.firebaseapp.com",
+  databaseURL: "https://cloudburst-e5cf3-default-rtdb.firebaseio.com",
+  projectId: "cloudburst-e5cf3",
+  storageBucket: "cloudburst-e5cf3.firebasestorage.app",
+  messagingSenderId: "605241746292",
+  appId: "1:605241746292:web:f6bcf6f535a9d6825fc221",
+  measurementId: "G-N44NNNJ9YH"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref("tamilnadu/Nilgiris");
+
+const ctx = document.getElementById("rainChart").getContext("2d");
+
+const rainChart = new Chart(ctx,{
+    type:"bar",
+    data:{
+        labels:[],
+        datasets:[{
+            label:"Rain Level (mm)",
+            data:[],
+            borderWidth:1
+        }]
+    },
+    options:{
+        responsive:true,
+        plugins:{
+            legend:{
+                labels:{
+                    color:"white"
+                }
+            }
+        },
+        scales:{
+            x:{
+                ticks:{ color:"white" }
+            },
+            y:{
+                ticks:{ color:"white" }
+        }
+        }
+    }
+});
+db.on("value", snapshot => {
+
+  const data = snapshot.val();
+  const container = document.getElementById("districtContainer");
+
+  container.innerHTML="";
+  let labels = [];
+  let rainValues = [];
+
+  for(let district in data){
+
+    const d = data[district];
+
+    let statusClass="safe";
+    let rainValue = parseInt(d.rain);
+
+    if(rainValue > 100){
+      statusClass="danger";
+    }
+    else if(rainValue > 50){
+      statusClass="warning";
+    }
+    else{
+      statusClass="safe";
+    }
+    labels.push(d.location);
+    rainValues.push(rainValue);
+
+    container.innerHTML += `
+      <div class="card">
+        <h3>📍 ${d.location}</h3>
+        🕒 <b>Time:</b> ${d.time}<br><br>
+        🌧 <b>Rain Level:</b> ${d.rain}<br>
+        💧 <b>Humidity:</b> ${d.humidity}<br><br>
+        🚨 <span class="${statusClass}">
+        ${statusClass.toUpperCase()}
+        </span>
+      </div>
+    `;
+  }
+  rainChart.data.labels = labels;
+  rainChart.data.datasets[0].data = rainValues;
+  rainChart.update();
+
+});
+
+
+
+function openMap(){
+
+  document.body.style.opacity="0.8";
+
+  setTimeout(function(){
+      window.location.href="map.html";
+  },400);
+
+}
+function openHome(){
+  document.body.style.opacity="0.8";
+
+  setTimeout(function(){
+      window.location.href="index.html";
+  },400);
+}
+function openAbout(){
+  document.getElementById("aboutBox").classList.add("active");
+}
+
+function closeAbout(){
+  document.getElementById("aboutBox").classList.remove("active");
+}
+function openContact(){
+  document.getElementById("contactBox").classList.add("show");
+}
+
+function closeContact(){
+  document.getElementById("contactBox").classList.remove("show");
+}
+</script>
+</body>
+</html>

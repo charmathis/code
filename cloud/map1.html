@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloudburst Live Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+h1{
+color:#38bdf8;
+margin:15px;
+}
+
+#map{
+height:90vh;
+width:100%;
+}
+
+/* Legend */
+
+.legend{
+position:absolute;
+bottom:20px;
+left:20px;
+background:white;
+padding:10px;
+border-radius:8px;
+color:black;
+font-size:14px;
+}
+
+.dot{
+height:12px;
+width:12px;
+border-radius:50%;
+display:inline-block;
+margin-right:5px;
+}
+
+.green{background:#22c55e;}
+.yellow{background:#facc15;}
+.red{background:#ef4444;}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🌧 Tamil Nadu Cloudburst Live Map</h1>
+
+<div id="map"></div>
+
+<div class="legend">
+<div><span class="dot green"></span> Safe</div>
+<div><span class="dot yellow"></span> Warning</div>
+<div><span class="dot red"></span> Danger / Heavy Rain</div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+apiKey: "AIzaSyBAPPlSXJdMwqR4Cv1yaRfwDz81tmXZJC0",
+authDomain: "cloudburst-e5cf3.firebaseapp.com",
+databaseURL: "https://cloudburst-e5cf3-default-rtdb.firebaseio.com",
+projectId: "cloudburst-e5cf3",
+storageBucket: "cloudburst-e5cf3.firebasestorage.app",
+messagingSenderId: "605241746292",
+appId: "1:605241746292:web:f6bcf6f535a9d6825fc221"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database().ref("tamilnadu");
+
+
+// Create Map
+
+const map = L.map('map').setView([11.1271,78.6569],7);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+
+// District coordinates
+
+const districtCoords = {
+
+Chennai:[13.0827,80.2707],
+Coimbatore:[11.0168,76.9558],
+Madurai:[9.9252,78.1198],
+Salem:[11.6643,78.1460],
+Trichy:[10.7905,78.7047],
+Tirunelveli:[8.7139,77.7567],
+Erode:[11.3410,77.7172],
+Vellore:[12.9165,79.1325],
+Thanjavur:[10.7870,79.1378]
+
+};
+
+let markers = {};
+
+
+// Live Firebase Listener
+
+db.on("value", snapshot => {
+
+const data = snapshot.val();
+
+for(let district in data){
+
+const d = data[district];
+
+let color = "green";
+
+if(d.status.toLowerCase()=="warning")
+color="yellow";
+
+if(d.status.toLowerCase()=="danger" || d.rain.toLowerCase()=="heavy")
+color="red";
+
+let coord = districtCoords[d.location];
+
+if(!coord) continue;
+
+
+// Create marker
+
+if(!markers[district]){
+
+markers[district] = L.circleMarker(coord,{
+radius:10,
+color:color,
+fillColor:color,
+fillOpacity:0.9
+}).addTo(map);
+
+markers[district].bindPopup(`
+<b>${d.location}</b><br>
+Rain: ${d.rain}<br>
+Humidity: ${d.humidity}<br>
+Status: ${d.status}<br>
+Time: ${d.time}
+`);
+
+}
+
+else{
+
+markers[district].setStyle({
+color:color,
+fillColor:color
+});
+
+}
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

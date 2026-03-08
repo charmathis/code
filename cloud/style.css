@@ -1,0 +1,192 @@
+/* ===== GENERAL ===== */
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
+  color:white;
+  background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#00c6ff);
+  background-size:400% 400%;
+  animation:gradientBG 10s ease infinite;
+}
+
+/* MOVING GRADIENT */
+@keyframes gradientBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* ===== NAVBAR ===== */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+}
+
+.logo{
+  font-weight:700;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+}
+
+/* ===== HERO ===== */
+.hero{
+  height:80vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+
+.title{
+  font-size:45px;
+  animation:fadeUp 1.2s ease;
+}
+
+.subtitle{
+  max-width:600px;
+  margin:20px 0;
+  opacity:0.9;
+  animation:fadeUp 1.8s ease;
+}
+/* ===== VIEW DASHBOARD BUTTON ===== */
+
+.view-btn{
+  margin-top:40px;
+  padding:15px 35px;
+  font-size:18px;
+  font-weight:600;
+  color:white;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+
+  box-shadow:0 10px 25px rgba(56,189,248,0.4);
+
+  transition:all 0.4s ease;
+}
+
+/* Hover effect */
+
+.view-btn:hover{
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 15px 35px rgba(56,189,248,0.7);
+  background:linear-gradient(135deg,#0ea5e9,#0284c7);
+}
+
+/* Click effect */
+
+.view-btn:active{
+  transform:scale(0.95);
+}
+
+/* Optional glowing animation */
+
+.view-btn{
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{
+    box-shadow:0 0 10px rgba(56,189,248,0.4);
+  }
+  to{
+    box-shadow:0 0 25px rgba(56,189,248,0.9);
+  }
+}
+
+/* BUTTON */
+.btn{
+  padding:15px 30px;
+  border:none;
+  border-radius:30px;
+  background:#00f2fe;
+  color:black;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.4s;
+}
+
+.btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 20px #00f2fe;
+}
+
+/* ===== ABOUT ===== */
+.about{
+  padding:80px 20px;
+  text-align:center;
+  max-width:800px;
+  margin:auto;
+}
+
+/* SCROLL ANIMATION */
+.hidden{
+  opacity:0;
+  transform:translateY(60px);
+  transition:1s;
+}
+
+.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* TEXT ANIMATION */
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background: url("http://static.temblor.net/wp-content/uploads/2017/03/rain.jpg") no-repeat center center/cover;
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  z-index:-1;
+}
+
+/* ===== PARTICLES ===== */
+.particles{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background-image:radial-gradient(white 1px, transparent 1px);
+  background-size:40px 40px;
+  opacity:0.15;
+  animation:moveParticles 20s linear infinite;
+  z-index:-1;
+}
+
+@keyframes moveParticles{
+  from{transform:translateY(0);}
+  to{transform:translateY(-100px);}
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  .title{
+    font-size:28px;
+  }
+}
